@@ -83,8 +83,6 @@ function Drawing(canvas) {
 
         scale.origin_x += x * (1 - unitStepScaleFactor);
         scale.origin_y += y * (1 - unitStepScaleFactor);
-
-        console.log(scale);
     });
 
     let isDragging = false;
