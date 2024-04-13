@@ -38,7 +38,7 @@ function Drawing(canvas) {
             }
             else {
                 ctx.moveTo(planet.position.x, planet.position.y);
-                ctx.lineTo(planet.position.x + planet.speed.x * 10, planet.position.y + planet.speed.y * 10);
+                ctx.lineTo(planet.position.x + planet.speed.x * 4, planet.position.y + planet.speed.y * 4);
                 ctx.stroke();
             }
             ctx.restore();

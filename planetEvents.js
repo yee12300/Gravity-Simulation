@@ -5,7 +5,7 @@ function PlanetEvents(canvas) {
     let first_click = true;
     let phase = 0;
 
-    let G = 6.674 * Math.pow(10, -0.7);
+    let G = 6.674 * Math.pow(10, -1);
 
     this.getPlanets = function() { return planets; }
     this.resetPlanets = function() { planets = []; }
@@ -116,8 +116,8 @@ function PlanetEvents(canvas) {
             first_click = false;
         } else {
             planets[0].speed = {
-                x: (this.cursor.x - planets[0].position.x) / 20,
-                y: (this.cursor.y - planets[0].position.y) / 20
+                x: (this.cursor.x - planets[0].position.x) / 4,
+                y: (this.cursor.y - planets[0].position.y) / 4
             };
             planets[0].Initialize();
             first_click = true;
