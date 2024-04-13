@@ -1,49 +1,43 @@
-// Get a reference to the canvas element
-let canvas = document.getElementById('canvas');
+function Planet(name, x, y) {
+    let mass = 10000;
+    let radius = Math.cbrt(mass);
+    let color = getRandomColor();
+    let isInitialized = false;
+    this.position = {x: x, y: y};
+    this.speed = {x: 0, y: 0};
+    this.acceleration = {x: 0, y: 0};
 
-// Set the canvas size
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
+    function getRandomColor() {
+        let letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 
-// Get the 2D drawing context
-let ctx = canvas.getContext('2d');
-
-// Set the fill color
-ctx.fillStyle = '#fff'; // white
-
-// Define the center of the circle's path
-let cx = canvas.width / 2;
-let cy = canvas.height / 2;
-
-// Define the radius of the circle's path
-let r = 100;
-
-// Define the initial angle
-let theta = 0;
-
-// Define the speed of the circle's movement
-let speed = Math.PI / 180;
-
-// Animation loop
-function animate() {
-    // Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Calculate the circle's new position
-    let x = cx + r * Math.cos(theta);
-    let y = cy + r * Math.sin(theta);
-
-    // Draw the circle
-    ctx.beginPath();
-    ctx.arc(x, y, 50, 0, Math.PI * 2, false);
-    ctx.fill();
-
-    // Increment the angle
-    theta += speed;
-
-    // Request the next frame
-    requestAnimationFrame(animate);
+    this.setMass = function(newMass) {
+        if(newMass >= 0) {
+            mass = newMass;
+            radius = Math.cbrt(mass);
+        }
+    }
+    this.getMass = function() {
+        return mass;
+    }
+    this.getName = function() {
+        return name;
+    }
+    this.getRadius = function() {
+        return radius;
+    }
+    this.getColor = function() {
+        return color;
+    }
+    this.isInitialized = function() {
+        return isInitialized;
+    }
+    this.Initialize = function() {
+        isInitialized = true;
+    }
 }
-
-// Start the animation
-animate();
