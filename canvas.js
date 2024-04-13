@@ -5,16 +5,15 @@ let canvas = document.getElementById('canvas');
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
 
-planetEvents = new PlanetEvents(canvas);
+drawing = new Drawing(canvas);
 
 function animate() {
-    planetEvents.clearCanvas();
-
-    planetEvents.drawPlanets();
+    drawing.clearCanvas();
+    drawing.drawPlanets();
+    drawing.updatePlanets();
 
     requestAnimationFrame(animate);
 }
 
 // Start the animation
 animate();
-
