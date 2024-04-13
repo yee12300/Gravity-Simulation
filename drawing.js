@@ -1,7 +1,6 @@
 function Drawing(canvas) {
     let ctx = canvas.getContext('2d');
     let planetEvents = new PlanetEvents(canvas);
-    let buttonEvents = new ButtonEvents(planetEvents);
     let scale = {
         factor : 1,
         origin_x : 0,
@@ -39,7 +38,7 @@ function Drawing(canvas) {
             }
             else {
                 ctx.moveTo(planet.position.x, planet.position.y);
-                ctx.lineTo(planet.position.x + planet.speed.x * 4, planet.position.y + planet.speed.y * 4);
+                ctx.lineTo(planet.position.x + planet.speed.x * 10, planet.position.y + planet.speed.y * 10);
                 ctx.stroke();
             }
             ctx.restore();
@@ -51,9 +50,41 @@ function Drawing(canvas) {
         planetEvents.updateCollision();
     }
 
+    let start = document.getElementById('start');
+    let stop = document.getElementById('stop');
+    let reset = document.getElementById('reset');
+
+    start.addEventListener('click', function() {
+        planetEvents.simulatePhase();
+    });
+    stop.addEventListener('click', function() {
+        planetEvents.createPhase();
+    });
+    reset.addEventListener('click', function() {
+        planetEvents.createPhase();
+        planetEvents.resetPlanets();
+        scale = {
+            factor : 1,
+            origin_x : 0,
+            origin_y : 0
+        }
+    });
+
     canvas.addEventListener('wheel', event => {
         if(planetEvents.getPhase() !== 1) return;
-        scale.factor *= event.deltaY > 0 ? 0.9 : 1.1;
+        let unitStepScaleFactor = event.deltaY > 0 ? 0.9 : 1.1;
+        scale.factor *= unitStepScaleFactor;
+
+        scale.origin_x /= unitStepScaleFactor;
+        scale.origin_y /= unitStepScaleFactor;
+
+        let x = event.clientX / scale.factor - scale.origin_x;
+        let y = event.clientY / scale.factor - scale.origin_y;
+
+        scale.origin_x += x * (1 - unitStepScaleFactor);
+        scale.origin_y += y * (1 - unitStepScaleFactor);
+
+        console.log(scale);
     });
 
     let isDragging = false;
@@ -61,9 +92,8 @@ function Drawing(canvas) {
 
     canvas.addEventListener('mousedown', event => {
         isDragging = true;
-        let cursor = planetEvents.cursor;
-        previousMousePosition.x = cursor.x;
-        previousMousePosition.y = cursor.y;
+        previousMousePosition.x = event.clientX;
+        previousMousePosition.y = event.clientY;
     });
 
     canvas.addEventListener('mouseup', event => {
@@ -72,14 +102,13 @@ function Drawing(canvas) {
 
     canvas.addEventListener('mousemove', event => {
         if(planetEvents.getPhase() !== 1) return;
-        let cursor = planetEvents.cursor;
         if (isDragging) {
-            let dx = cursor.x - previousMousePosition.x;
-            let dy = cursor.y - previousMousePosition.y;
+            let dx = event.clientX - previousMousePosition.x;
+            let dy = event.clientY - previousMousePosition.y;
             scale.origin_x += dx / scale.factor;
             scale.origin_y += dy / scale.factor;
-            previousMousePosition.x = cursor.x;
-            previousMousePosition.y = cursor.y;
+            previousMousePosition.x = event.clientX;
+            previousMousePosition.y = event.clientY;
         }
     });
 }
