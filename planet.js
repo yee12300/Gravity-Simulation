@@ -1,5 +1,5 @@
 function Planet(name, x, y) {
-    let mass = 10000;
+    let mass = 1000;
     let radius = Math.cbrt(mass);
     let color = getRandomColor();
     let isInitialized = false;

@@ -12,6 +12,7 @@ function PlanetEvents(canvas) {
 
     this.createPhase = function() { phase = 0; }
     this.simulatePhase = function() { phase = 1; }
+    this.getPhase = function() { return phase; }
 
     this.updatePlanets = function() {
         if(phase === 1) {
@@ -115,8 +116,8 @@ function PlanetEvents(canvas) {
             first_click = false;
         } else {
             planets[0].speed = {
-                x: (this.cursor.x - planets[0].position.x) / 20,
-                y: (this.cursor.y - planets[0].position.y) / 20
+                x: (this.cursor.x - planets[0].position.x) / 100,
+                y: (this.cursor.y - planets[0].position.y) / 100
             };
             planets[0].Initialize();
             first_click = true;
@@ -129,7 +130,7 @@ function PlanetEvents(canvas) {
         // If the size is not fixed
         if (!planets[0].isInitialized()) {
             // Change the mass of the last planet
-            planets[0].setMass(planets[0].getMass() - event.deltaY * 10);
+            planets[0].setMass(planets[0].getMass() - event.deltaY);
         }
     });
 }
